@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./Template_Default.xhtml">
+
+            <ui:define name="content">
+                
+               
+                <h:form id="formeindexok" rendered="#{loginMBean.connected}">
+                <p:growl id="growl" life="2000" />
+
+             <h2>Créditer un compte</h2>
+             
+            <h:outputLabel value="Id du compte "></h:outputLabel>
+            <p:selectOneMenu value="#{beancompteBancaire.idCompteACrediter}">
+                        <c:forEach var="CompteBancaire" items="#{beancompteBancaire.getComptesBancairesBbis()}">
+                            <f:selectItem itemLabel="${CompteBancaire.id}" itemValue="${CompteBancaire.id}" />
+                        </c:forEach>
+                    </p:selectOneMenu>
+            
+           <h:outputLabel for="step" value="Montant : " />
+        <p:spinner id="step" value="#{beancompteBancaire.montantACrediter}" stepFactor="0.5" />
+        
+            <p:commandButton 
+                value="Créditer le compte"
+                action="#{beancompteBancaire.crediterCompte()}"
+           
+              >
+                <p:confirm header="confirmation" message="jbdefhedgb" />
+            </p:commandButton>  
+        
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Non" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+        
+            <p:commandButton 
+                value="Deconnexion"
+                action="#{loginMBean.deconnexion()}">
+            </p:commandButton>
+        </h:form>
+      
+         <h:form id="formeindexko" rendered="#{!loginMBean.connected}">
+             vouss netes pas clhulhjl
+         </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

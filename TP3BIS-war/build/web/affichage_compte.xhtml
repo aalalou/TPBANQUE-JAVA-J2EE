@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <body>
+
+        <ui:composition template="./Template_Default.xhtml">
+
+
+
+            <ui:define name="content">
+
+
+
+
+
+
+                <h2>Créditer un compte</h2>
+                <h:form>
+                    <h:outputLabel value="Id du compte "></h:outputLabel>
+                    <h:inputText value="#{beancompteBancaire.idCompteACrediter}"></h:inputText>
+                    <h:outputLabel value="Montant"></h:outputLabel>
+                    <h:inputText value="#{beancompteBancaire.montantACrediter}"></h:inputText>
+                    <h:commandButton 
+                        value="Créditer le compte"
+                        action="#{beancompteBancaire.crediterCompte()}">
+                    </h:commandButton>
+                </h:form>
+
+                <h2>Débiter un compte</h2>
+                <h:form>
+                    <h:outputLabel value="Id du compte "></h:outputLabel>
+                    <h:inputText value="#{beancompteBancaire.idCompteADebiter}"></h:inputText>
+                    <h:outputLabel value="Montant"></h:outputLabel>
+                    <h:inputText value="#{beancompteBancaire.montantADebiter}"></h:inputText>
+                    <h:commandButton 
+                        value="Débiter le compte"
+                        action="#{beancompteBancaire.debiterCompte()}">
+                    </h:commandButton>
+                </h:form>
+
+                <h2>Transfert d'argent</h2>
+                <h:form>
+                    <h:outputLabel value="Id du compte source"></h:outputLabel>
+                    <h:inputText value="#{beancompteBancaire.id1}"></h:inputText>
+                    <h:outputLabel value="Id du compte destination"></h:outputLabel>
+                    <h:inputText value="#{beancompteBancaire.id2}"></h:inputText>
+                    <h:outputLabel value="Montant"></h:outputLabel>
+                    <h:inputText value="#{beancompteBancaire.montantTransfert}"></h:inputText>
+                    <h:commandButton 
+                        value="Transférer"
+                        action="#{beancompteBancaire.transferer()}">
+                    </h:commandButton>
+                    <h3>Résultat de l'opération: #{beancompteBancaire.message}</h3>
+                </h:form>
+
+
+
+                <f:view>
+
+
+                    <h:form>
+                        <h1><h:outputText value="List"/></h1>
+                        <p:dataTable value="#{beancompteBancaire.lazyCompteBancaires}" 
+                                     id="listeCompte" 
+                                     lazy="true"
+                                     var="item" 
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15"
+
+                                     rowKey="#{item.id}"
+                                     selection="#{beancompteBancaire.selectedComptes}"
+                                     
+                                    
+                                     filteredValue="#{beancompteBancaire.filtreComptes}"
+                                     
+
+
+                                     rows="10">
+
+                            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+                            <p:column headerText="Nom" 
+                                      sortBy="#{item.nom}"
+                                      filterBy="#{item.nom}"
+                                      filterMatchMode="contains"
+                                      footerText="contains"
+                                     
+
+                                      >
+                                <f:facet name="header">
+                                    <h:outputText value="Nom"/>
+                                </f:facet>
+                                <h:outputText value="#{item.nom}"/>
+                            </p:column>
+                            <p:column  headerText="Solde" 
+                                       sortBy="#{item.solde}"
+                                       filterBy="#{item.solde}"
+                                       filterMatchMode="contains"
+                                       
+                                       >
+                                <f:facet name="header">
+                                    <h:outputText value="Solde"/>
+                                </f:facet>
+                                <h:outputText value="#{item.solde}"/>
+                            </p:column>
+                            <p:column  headerText="desciption">
+                                <f:facet name="header">
+                                    <h:outputText value="Description"/>
+                                </f:facet>
+                                <h:outputText value="#{item.description}"/>
+                            </p:column>
+                            <p:column   headerText="id" 
+                                        sortBy="#{item.id}"
+                                        filterBy="#{item.id}"
+                                        filterMatchMode="contains">
+                                <f:facet name="header">
+                                    <h:outputText value="Id"/>
+                                </f:facet>
+                                <h:outputText value="#{item.id}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Operations"/>
+                                </f:facet>
+                                <h:link   outcome="compte.xhtml?id=#{item.id}" value="Details"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Supprimmer"/>
+                                </f:facet>
+                                <h:commandLink action="#{beancompteBancaire.supprimerCompte(item)}" value="Supprimer"/>
+                            </p:column>
+                            <f:facet name="footer">
+                                <!--khalid -->
+                                <p:commandLink action="#{beancompteBancaire.supprimer()}" 
+                                               value="Supprimer"
+                                               update="listeCompte">
+                                <p:confirm header="confirmation" message="jbdefhedgb" />
+                                </p:commandLink>
+                                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Non" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+                                <!--fin khalid -->
+                            </f:facet>
+                        </p:dataTable>
+                        
+                        
+                        
+                    </h:form>
+                </f:view>
+
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

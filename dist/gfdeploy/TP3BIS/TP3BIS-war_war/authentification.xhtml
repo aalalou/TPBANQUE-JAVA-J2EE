@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Authentification</title>
+        <link href="resources/css/default.css" rel='stylesheet' type='text/css' />
+    </h:head>
+    <h:body>
+        
+        
+	<div class="login-form">
+	<div class="head">
+            <img src="resources/img/mem2.jpg" alt=""></img>					
+	</div>
+            
+            <h:form>
+                <li>
+                    
+                    <h:inputText class="text" value="#{loginMBean.login}" onfocus="this.value=''," onblur="if (this.value==''){this.value='USERNAME';}"> <h:link hreflang="#" class="icon user"> </h:link> </h:inputText>
+                </li>
+                <li>
+                    
+                    <h:inputSecret class="password" value="#{loginMBean.password}" onfocus="this.value=''," onblur="if (this.value==''){this.value='Password';}"> <h:link hreflang="#" class="icon lock"> </h:link> </h:inputSecret>
+                </li>
+                
+               
+                    <div class="p-container">
+        
+                        <h:commandButton value="Se Connecter" action="#{loginMBean.authentification()}" />
+                    </div>
+                 <br/>
+                     <h:messages/>
+             
+                
+            </h:form>
+            
+        </div>
+			
+   	<div class="copy-right">
+        <p>copyright by : <a href="Soufiane AALALOU">Soufiane AALALOU</a></p> 
+        </div>
+    </h:body>
+</html>
+
